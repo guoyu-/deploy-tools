@@ -1,0 +1,158 @@
+#my.cnf
+[client]
+port            = 3306
+socket          = /data/mysql/sock/mysql.sock
+
+[mysql]
+prompt="\\u@\\h : \\d \\R:\\m:\\s> "
+#tee=/data/mysql/data/query.log
+no-auto-rehash
+
+[mysqld]
+log-bin=/data/mysql/binlog/mysql-bin
+#rpl_semi_sync_slave_enabled = 1
+gtid_mode = on
+enforce_gtid_consistency = 1
+user = mysql
+basedir = /usr/local/mysql
+datadir = /data/mysql/mydata
+relay_log = /data/mysql/relaylog/mysql-relay-bin
+port = 3306
+socket = /data/mysql/sock/mysql.sock
+event_scheduler = 0
+master_info_repository = TABLE
+relay_log_info_repository = TABLE
+#lower_case_table_names =1
+#skip-grant-tables  
+#skip-ssl
+
+secure_file_priv = /data/mysql_dump
+
+#timeout
+interactive_timeout = 300
+wait_timeout = 300
+
+#character set
+character-set-server = utf8mb4
+
+open_files_limit = 65535
+max_connections = 5000
+max_user_connections = 5100
+max_connect_errors = 100000
+group_concat_max_len = 102400
+sql_mode = ""
+
+#skip-name-resolve = 1
+#logs
+log-output=file
+slow_query_log = 1
+slow_query_log_file = slow.log
+#log-error = error.log
+log_warnings = 2
+pid-file = mysql.pid
+long_query_time = 0.3
+#log-slow-admin-statements = 1
+#log-queries-not-using-indexes = 1
+log-slow-slave-statements = 1
+log-error = /data/mysql/log/error.log
+slow_query_log_file = /data/mysql/log/slow-query.log
+
+#binlog
+binlog_format = row
+server-id = 2383306
+log-bin = /data/mysql/binlog/mybin.log
+binlog_cache_size = 4M
+max_binlog_size = 500m
+max_binlog_cache_size = 2000m
+sync_binlog = 0
+expire_logs_days = 7
+
+#relay log
+skip_slave_start = 1
+max_relay_log_size = 500M
+relay_log_purge = 1
+relay_log_recovery = 1
+log_slave_updates
+slave-skip-errors=1032,1053,1062,1678
+#slave-skip-errors=1062
+tmpdir = /data/mysql/tmpdir
+
+explicit_defaults_for_timestamp=true
+#buffers & cache
+table_open_cache = 2048
+table_definition_cache = 2048
+table_open_cache = 2048
+max_heap_table_size = 96M
+sort_buffer_size = 2M
+join_buffer_size = 2M
+thread_cache_size = 256
+query_cache_size = 0
+query_cache_type = 0
+query_cache_limit = 256K
+query_cache_min_res_unit = 512
+thread_stack = 192K
+tmp_table_size = 96M
+key_buffer_size = 8M
+read_buffer_size = 2M
+read_rnd_buffer_size = 16M
+bulk_insert_buffer_size = 32M
+
+#myisam
+myisam_sort_buffer_size = 128M
+myisam_max_sort_file_size = 10m
+myisam_repair_threads = 1
+
+#innodb
+innodb_buffer_pool_size = 8g
+innodb_buffer_pool_instances = 1
+innodb_data_file_path = ibdata1:1G:autoextend
+innodb_flush_log_at_trx_commit = 2
+innodb_log_buffer_size = 64M
+innodb_log_file_size = 500M
+innodb_log_files_in_group = 2
+innodb_max_dirty_pages_pct = 60
+innodb_file_per_table = 1
+innodb_rollback_on_timeout = 1
+innodb_status_file = 1
+innodb_io_capacity = 10000
+transaction_isolation = READ-COMMITTED
+innodb_flush_method = O_DIRECT
+innodb_log_group_home_dir = /data/mysql/innodb_log
+innodb_data_home_dir = /data/mysql/innodb_ts
+innodb_lock_wait_timeout=300
+#innodb_additional_mem_pool_size = 16M
+
+innodb_page_cleaners = 8
+
+#for group replication
+#transaction_write_set_extraction = XXHASH64
+#loose-group_replication_start_on_boot = off
+#loose-group_replication_bootstrap_group = off
+#loose-group_replication_single_primary_mode = false
+#plugin-load=group_replication.so
+
+[mysqld_safe]
+#open_file_limit = 65535
+
+#for parallel apply binlog
+slave-parallel-type = LOGICAL_CLOCK
+slave-parallel-workers = 4
+slave_preserve_commit_order = on
+
+#for gtid gr config
+gtid_mode = on
+enforce_gtid_consistency = on
+#master_info_repository = TABLE 
+#relay_log_info_repository = TABLE
+binlog_checksum = NONE
+log-slave-updates = 1                                  
+
+## Index
+ft_min_word_len = 1
+log-short-format
+
+## Logging
+log_output = FILE
+
+
+replicate-ignore-db = mysql.user
