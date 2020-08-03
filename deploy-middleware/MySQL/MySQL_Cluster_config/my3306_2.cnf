@@ -59,7 +59,7 @@ slow_query_log_file = /data/mysql/log/slow-query.log
 
 #binlog
 binlog_format = row
-server-id = 2383306
+server-id = 2
 log-bin = /data/mysql/binlog/mybin.log
 binlog_cache_size = 4M
 max_binlog_size = 500m
